@@ -60,15 +60,14 @@ func main() {
 			fmt.Println(coder(number + number1))
 		} else if sign1 == "-" {
 			fmt.Println(coder(number - number1))
+			if number-number1 <= 0 {
+				err := errors.New("Вывод ошибки, так как в римской системе нет отрицательных чисел и ноля.")
+				fmt.Print(err)
+			}
 		} else if sign1 == "*" {
 			fmt.Println(coder(number * number1))
 		} else if sign1 == "/" {
 			fmt.Println(coder(number / number1))
-		}
-
-		if number-number1 <= 0 {
-			err := errors.New("Вывод ошибки, так как в римской системе нет отрицательных чисел и ноля.")
-			fmt.Print(err)
 		}
 
 	} else {
@@ -97,12 +96,48 @@ func main() {
 		}
 
 		if sign1 == "+" {
+			if num1 < 1 || num2 < 1 {
+				err := errors.New("Вывод ошибки, так как введено число меньше 1.")
+				fmt.Println(err)
+			}
+
+			if num1 > 10 || num2 > 10 {
+				err := errors.New("Вывод ошибки, так как введено число больше 10.")
+				fmt.Println(err)
+			}
 			fmt.Println(num1 + num2)
 		} else if sign1 == "-" {
+			if num1 < 1 || num2 < 1 {
+				err := errors.New("Вывод ошибки, так как введено число меньше 1.")
+				fmt.Println(err)
+			}
+
+			if num1 > 10 || num2 > 10 {
+				err := errors.New("Вывод ошибки, так как введено число больше 10.")
+				fmt.Println(err)
+			}
 			fmt.Println(num1 - num2)
 		} else if sign1 == "*" {
+			if num1 < 1 || num2 < 1 {
+				err := errors.New("Вывод ошибки, так как введено число меньше 1.")
+				fmt.Println(err)
+			}
+
+			if num1 > 10 || num2 > 10 {
+				err := errors.New("Вывод ошибки, так как введено число больше 10.")
+				fmt.Println(err)
+			}
 			fmt.Println(num1 * num2)
 		} else if sign1 == "/" {
+			if num1 < 1 || num2 < 1 {
+				err := errors.New("Вывод ошибки, так как введено число меньше 1.")
+				fmt.Println(err)
+			}
+
+			if num1 > 10 || num2 > 10 {
+				err := errors.New("Вывод ошибки, так как введено число больше 10.")
+				fmt.Println(err)
+			}
 			fmt.Println(num1 / num2)
 		}
 
@@ -157,47 +192,17 @@ func decoder(x string, y string) []string {
 }
 
 func coder(x int) string {
-	var rimtoInt = map[int]string{
-		1:   "I",
-		2:   "II",
-		3:   "III",
-		4:   "IV",
-		5:   "V",
-		6:   "VI",
-		7:   "VII",
-		8:   "VIII",
-		9:   "IX",
-		10:  "X",
-		20:  "XX",
-		30:  "XXX",
-		40:  "XL",
-		50:  "L",
-		60:  "LX",
-		70:  "LXX",
-		80:  "LXXX",
-		90:  "XC",
-		100: "C",
+	r := [][]string{
+		{"", "M", "MM", "MMM"},
+		{"", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"},
+		{"", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"},
+		{"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"}}
+	n := []int{1000, 100, 10, 1}
+	result := ""
+	for k, v := range n {
+		result += r[k][x/v]
+		x = x % v
 	}
-
-	var a int = x
-	keys := []int{}
-	for key := range rimtoInt {
-		keys = append(keys, key)
-	}
-	//fmt.Println(keys)
-	i := 0
-	for range keys {
-		if a != x {
-			break
-		}
-		if a == keys[i] {
-			a = keys[i]
-			x = a
-			i++
-		}
-	}
-
-	x1 := strconv.Itoa(x)
-	x1 = rimtoInt[x]
-	return x1
+	return result
 }
+
